@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% block body_class %}{% endblock %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+  <div class="result">
+    <div class="result__container">
+      {% image result.the_game.home_team.logo height-100 class='result__logo' %}
+      <span class="result__name">{{ result.the_game.home_team }}</span>
+      <span class="result__score">{{ result.home_team_score }}</span>
+    </div>
+    <div class="result__container">
+      <div class="result__vs">:</div>
+    </div>
+    <div class="result__container">
+      <span class="result__score">{{ result.away_team_score }}</span>
+      <span class="result__name">{{ result.the_game.away_team }}</span>
+      {% image result.the_game.away_team.logo height-100 class='result__logo' %}
+    </div>
+  </div>
+  {% for news in latest_news %}
+    <div class="news{% if forloop.first %} news__first{% endif %}">
+      <div class="news__foto">
+        <a href="{% pageurl news %}">{% image news.intro_image fill-300x300-c100 %}</a>
+      </div>
+      <div class="news__text">
+        <div class="news__title">
+          <a href="{% pageurl news %}"">{{ news.title }}</a>
+          <hr>
+        </div>
+        <div class="news__description">{{ news.intro }}</div>
+      </div>
+      {% if forloop.first %}
+        <div>
+          <button onclick="location.href='{% pageurl news %}'"
+                  type="button"
+                  class="news__button">daugiau čia&rarr;</button>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  <div class="news__button--next">
+    <button onclick="location.href='{{ news_url }}'"
+            type="button"
+            class="news__button">Kitos naujienos&rarr;</button>
+  </div>
+  {% for game in all_games %}
+    <div class="next"
+         style="background-image: url({% static '/img/field-background.jpg' %})">
+      <span class="next__left"></span>
+      <!-- <div class="next__logos">
+      <img src="/img/ekranas.png" alt="Ekranas logo" />
+      <img src="/img/page-logo.png" alt="" />
+    </div>
+    <span class="next__teams">FK Ekranas vs Fk Minija</span>
+<span class="next__date">09.02 18.00</span> -->
+      <div class="next__logos">
+        {% image game.home_team.logo height-100 %}
+        {% image game.away_team.logo height-100 %}
+      </div>
+      <span class="next__teams">{{ game.home_team.name }} vs {{ game.away_team.name }}</span>
+      <span class="next__date">{{ game.game_date|date:'m.d H:i' }}</span>
+    </div>
+  {% endfor %}
+{% endblock content %}
+{% block extra_js %}
+  <script type="text/javascript" src="{% static 'js/home_page.js' %}"></script>
+{% endblock %}

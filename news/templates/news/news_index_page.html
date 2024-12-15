@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags news_tags %}
+{% block content %}
+  {% for n in news %}
+    <div class="allnews">
+      <div class="allnews__foto">
+        <a href="{% pageurl n %}">{% image n.intro_image fill-200x190-c100 %}</a>
+      </div>
+      <div class="allnews__text">
+        <div class="allnews__title news__title">
+          <a href="{% pageurl n %}"">{{ n.title }}</a>
+          <hr>
+        </div>
+        <div class="allnews__description">{{ n.intro }}</div>
+      </div>
+    </div>
+  {% endfor %}
+  <div class="allnews__pagination"
+       {% if news.has_previous or news.number == 1 and news.has_next %}style="justify-content: space-between;" {% elif news.has_next %}style="justify-content: end;" {% endif %}>
+    {% if news.has_previous %}
+      {% get_news_page news.previous_page_number  as prev_page %}
+      <div class="news__button--bottom news__button--prev{% if not news.has_next %} news__button--last {% endif %}">
+        <button onclick="location.href='{% pageurl prev_page %}'"
+                type="button"
+                class="news__button">&larr;Atgal</button>
+      </div>
+    {% elif news.number == 1 %}
+      <div class="news__button--bottom news__button--prev{% if not news.has_next %} news__button--last {% endif %}">
+        <button onclick="location.href='/'" type="button" class="news__button">&larr;Atgal</button>
+      </div>
+    {% endif %}
+    {% if news.has_next %}
+      {% get_news_page news.next_page_number  as next_page %}
+      <div class="news__button--bottom news__button--next">
+        <button onclick="location.href='{% pageurl next_page %}'"
+                type="button"
+                class="news__button">Kitos naujienos&rarr;</button>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

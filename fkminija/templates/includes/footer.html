@@ -1,0 +1,19 @@
+{% load static footer_tags wagtailimages_tags %}
+<div class="footer">
+  <div class="footer__text">
+    Mūsų
+    <br>
+    rėmėjai:
+  </div>
+  {% get_sponsors as all_sponsors %}
+  {% for sp in all_sponsors %}
+    {% image sp.logo height-80 class='footer__img' %}
+  {% endfor %}
+  <!-- <img src="{% static '/img/baltikas.png' %}" alt="Baltikas" class="footer__img" />
+    <img src="{% static '/img/arlanga.webp' %}" alt="Arlanga" class="footer__img" />
+    <img src="{% static '/img/grs.png' %}" alt="Savivaldybe" class="footer__img" />
+    <img src="{% static '/img/savivaldybe.png' %}" alt="Savivaldybe" class="footer__img" />
+    <img src="{% static '/img/logo Vikva.png' %}" alt="Vikva" class="footer__img" />
+    <img src="{% static '/img/PajurioNaujienos.png' %}" alt="pajurio Naujienos" class="footer__img" />
+<img src="{% static '/img/startas.jpeg' %}" alt="pajurio Naujienos" class="footer__img" /> -->
+</div>

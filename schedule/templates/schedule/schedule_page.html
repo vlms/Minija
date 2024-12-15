@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <h1 class="tvarkarastis__title">{{ self.title }}</h1>
+  <div class="tvarkarastis"
+    id="tvarkarastis"
+    style="grid-template-rows: repeat( {% widthratio games|length|add:1 2 1 %}, 1fr);"">
+    {% for game in games %}
+      <div class="tvarkarastis__match">
+        <div class="tvarkarastis__team">{{ game.home_team }}</div>
+        <div class="tvarkarastis__container">
+          <div class="tvarkarastis__date">
+            <div class="tvarkarastis__date--day">{{ game.game_date|date:'m.d' }}</div>
+            <div class="tvarkarastis__date--hour">{{ game.game_date|date:' H:i' }}</div>
+          </div>
+          {% if game.result.newspage %}
+            <a href="{{ game.result.newspage.url }}"
+               class="tvarkarastis__result--link">
+              <div class="tvarkarastis__result">
+                <div class="tvarkarastis__result--score">{{ game.result.home_team_score }}</div>
+                <span>:</span>
+                <div class="tvarkarastis__result--score">{{ game.result.away_team_score }}</div>
+              </div>
+            </a>
+          {% else %}
+            <div class="tvarkarastis__result">
+              <div class="tvarkarastis__result--score">{{ game.result.home_team_score }}</div>
+              <span>:</span>
+              <div class="tvarkarastis__result--score">{{ game.result.away_team_score }}</div>
+            </div>
+          {% endif %}
+        </div>
+        <div class="tvarkarastis__team">{{ game.away_team }}</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+{% block extra_js %}
+  <script type="text/javascript" src="{% static 'js/schedule.js' %}"></script>
+{% endblock %}

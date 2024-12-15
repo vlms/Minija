@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+{% block content %}
+  <h1 class="contact__title">{{ self.title }}</h1>
+  <div class="contact">
+    <div class="contact__data">{{ self.body|richtext }}</div>
+    <div id="map" class="contact__map"></div>
+  </div>
+{% endblock %}
+{% block extra_js %}
+  <script type="text/javascript" src="{% static 'js/contact.js' %}"></script>
+{% endblock %}

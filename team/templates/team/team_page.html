@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% block content %}
+  {% for block in self.body %}
+    <div class="team__part--container">
+      <h1 class="team__subtitle">{{ block.value.heading }}</h1>
+      {% for member in block.value.members %}
+        <div class="team__member">
+          {% image member.foto height-1000 as big_photo %}
+          <a data-lightbox="{{ member.first_name }}"
+             data-title="{{ member.first_name }} {{ member.last_name }}"
+             href="{{ big_photo.url }}">{% image member.foto class='team__member--img' fill-220x220 %}</a>
+          <div class="team__member--name">{{ member.first_name }}</div>
+          <div class="team__member--name">{{ member.last_name }}</div>
+          <hr>
+          <div class="team__member--function">{{ member.function }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+<!-- {% load static %} -->
+{% block content %}
+  <div class="newsd">
+    <div class="newsd__title">
+      {{ self.title }}
+      <div class="newsd__date">{{ self.first_published_at|date:'Y-m-d H:i' }}</div>
+    </div>
+    {% if self.game_is %}
+      <div class="newsd__game">
+        {% image self.game_is.the_game.home_team.logo height-100 class='newsd--game__logo' %}
+        <span class="newsd__game--name">{{ self.game_is.the_game.home_team }}</span>
+        <span class="newsd__game--score">{{ self.game_is.home_team_score }}</span>
+        <div class="newsd__game--vs">:</div>
+        <span class="newsd__game--score">{{ self.game_is.away_team_score }}</span>
+        <span class="newsd__game--name">{{ self.game_is.the_game.away_team }}</span>
+        {% image self.game_is.the_game.away_team.logo height-100 class='newsd--game__logo' %}
+      </div>
+    {% endif %}
+    {% if self.players %}
+      <div class="newsd__players">
+        <div class="newsd__players--title">Startinė sudėtis</div>
+        {% for player in self.players|dictsort:"value.player_number" %}
+          <span class="newsd__players--name">{{ player.value.player_number }} {{ player.value.first_name }} {{ player.value.last_name }}</span>
+        {% endfor %}
+        {% if self.reserve_players %}
+          <hr>
+          {% for player in self.reserve_players|dictsort:"value.player_number" %}
+            <span class="newsd__players--name">{{ player.value.player_number }} {{ player.value.first_name }} {{ player.value.last_name }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="newsd__body">
+      {{ self.full_description|richtext }}
+      <div class="newsd__images">
+        {% for img in self.media %}
+          {% image img.value height-1000 jpegquality-50 as big_photo %}
+          <a data-lightbox="match-moments" href="{{ big_photo.url }}">{% image img.value width-280 class="newsd__image" %}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+<!-- {% block extra_js %}
+    <script type="text/javascript" src="{% static 'js/schedule.js' %}"></script>
+  {% endblock %} -->
